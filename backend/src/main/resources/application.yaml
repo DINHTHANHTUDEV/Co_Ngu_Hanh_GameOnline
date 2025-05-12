@@ -16,8 +16,8 @@ spring:
 
 outbound:
   identity:
-    client-id: "your-client-id"
-    client-secret: "your-client-secret"
+    client-id: ""
+    client-secret: ""
     redirect-uri: "http://localhost:5173/authenticate"
 
 jwt:
