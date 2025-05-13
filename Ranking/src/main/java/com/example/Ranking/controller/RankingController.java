@@ -19,6 +19,7 @@ public class RankingController {
     @Autowired
     private RankingWebSocketController wsController;
 
+    // top 10 theo thang
     @GetMapping("/top10")
     public ResponseEntity<List<RankingDTO>> getTop10Rankings(
             @RequestParam("month") int month,
@@ -33,5 +34,18 @@ public class RankingController {
         wsController.sendRanking(dto);
         return "Ranking da gui toi WebSocket!";
     }
+
+    // Endpoint để cập nhật bảng xếp hạng tháng từ match history
+    @PostMapping("/update")
+    public String updateMonthlyRanking(@RequestParam int month, @RequestParam int year) {
+        try {
+            // Gọi service để tính toán và cập nhật bảng xếp hạng
+            rankingService.calculateRankingForCurrentMonth(month, year);
+            return "Bảng xếp hạng đã được cập nhật thành công cho tháng " + month + " năm " + year;
+        } catch (Exception e) {
+            return "Đã có lỗi xảy ra khi cập nhật bảng xếp hạng: " + e.getMessage();
+        }
+    }
+
 
 }
