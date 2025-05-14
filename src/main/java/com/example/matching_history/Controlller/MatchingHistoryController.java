@@ -15,6 +15,7 @@ public class MatchingHistoryController {
     @Autowired
     private MatchingHistoryRepository matchingHistoryRepository;
 
+    // hien thi lich su matchingHistory
     @GetMapping("/api/matchingHistory")
     public List<MatchHistoryDTO> listMatchingHistory() {
         return matchingHistoryRepository.findAllMatchHistoryDTO();
@@ -23,6 +24,7 @@ public class MatchingHistoryController {
     @Autowired
     private MatchHistoryWebSocketController wsController;
 
+    //WebSocket
     @PostMapping("/test")
     public String testSendMatchHistory(@RequestBody MatchHistoryDTO dto) {
         wsController.sendMatchHistory(dto);
