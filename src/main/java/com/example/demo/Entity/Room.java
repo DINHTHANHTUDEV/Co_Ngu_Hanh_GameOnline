@@ -26,7 +26,7 @@ public class Room {
     @Column(name = "elo_points")
     Integer elo_points;
     @Column(name = "is_private")
-    Boolean is_private;
+    Boolean isPrivate;
     @Column(name = "password")
     String password;
     @Column(name = "created_at")
