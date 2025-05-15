@@ -1,5 +1,6 @@
 package com.example.co_ngu_hanh_game.service;
 
+import com.example.co_ngu_hanh_game.dto.PlayerProfileDTO;
 import com.example.co_ngu_hanh_game.entity.PlayerProfiles;
 import com.example.co_ngu_hanh_game.repository.PlayerProfileRepository;
 import com.example.co_ngu_hanh_game.repository.UserRepository;
@@ -18,19 +19,21 @@ public class AdminService {
     @Autowired
     private PlayerProfileRepository profileRepository;
 
-    public Map<String, Object> getAdminSummary() {
-        long onlineUsers = userRepository.countByIsOnlineTrue();
-        long totalMatches = profileRepository.findAll()
-                .stream()
-                .mapToLong(PlayerProfiles::getTotalMatches)
-                .sum();
+    // ✅ Trả về PlayerProfileDTO (top người thắng nhiều nhất)
+    public PlayerProfileDTO getAdminSummary() {
         PlayerProfiles topWinner = profileRepository.findTopByOrderByWinsDesc().orElse(null);
 
-        Map<String, Object> result = new HashMap<>();
-        result.put("totalMatches", totalMatches);
-        result.put("onlineUsers", onlineUsers);
-        result.put("topWinner", topWinner != null ? topWinner.getUser().getUsername() : null);
-        return result;
+        if (topWinner == null) {
+            return new PlayerProfileDTO(); // Trả về DTO rỗng nếu không có
+        }
+
+        return new PlayerProfileDTO(
+                topWinner.getUser().getUsername(),
+                topWinner.getWins(),
+                topWinner.getWinrate(),
+                topWinner.getEloPoints(),
+                topWinner.getCurrentStars()
+        );
     }
 
     public Map<String, List<PlayerProfiles>> getTopPlayers() {

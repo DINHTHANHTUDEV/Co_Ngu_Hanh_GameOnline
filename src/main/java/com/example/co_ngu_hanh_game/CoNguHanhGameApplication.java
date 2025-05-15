@@ -8,6 +8,7 @@ public class CoNguHanhGameApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(CoNguHanhGameApplication.class, args);
+		System.out.println("running ...");
 	}
 
 }
