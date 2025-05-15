@@ -17,6 +17,9 @@ public class RoomController {
     @Autowired
     private RoomService roomService;
 
+    @Autowired
+    private RoomWebSocketController roomWebSocketController;
+
     // tạo phòng
     @PostMapping("/create")
     public ResponseEntity<?> createRoom(@RequestBody CreateRoomRequest request) {
@@ -68,5 +71,12 @@ public class RoomController {
     @GetMapping("/members/{roomId}")
     public ResponseEntity<?> getRoomMembers(@PathVariable Integer roomId) {
         return ResponseEntity.ok(roomService.getRoomMembers(roomId));
+    }
+
+    // API test WebSocket
+    @PostMapping("/test-ws")
+    public ResponseEntity<String> testSendWebSocket() {
+        roomWebSocketController.sendRoomUpdate("Đây là tin nhắn test từ REST API sang WebSocket.");
+        return ResponseEntity.ok("Đã gửi WebSocket thành công!");
     }
 }
